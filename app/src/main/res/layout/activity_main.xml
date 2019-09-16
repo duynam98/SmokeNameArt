@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:src="@drawable/pexel_bg"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <ImageView
+        android:layout_marginTop="30dp"
+        android:src="@drawable/smoke_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:id="@+id/imgPlay"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/ic_play_circle_filled_black_24dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"/>
+    <TextView
+        android:id="@+id/txtPolicy"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:textStyle="italic"
+        android:textColor="#0D47F1"
+        android:textSize="15sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Copyright and policy" />
+
+</RelativeLayout>

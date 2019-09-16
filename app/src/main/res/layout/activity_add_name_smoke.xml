@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000"
+    android:orientation="vertical"
+    tools:context=".AddNameSmokeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#000">
+
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:src="@drawable/ic_arrow_back_24dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Smoke Name Art"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/imgSave"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:src="@drawable/ic_open_in_new_24dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#313030"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:id="@+id/rllSave"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:id="@+id/rllAddName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imgBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/imgOverBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/imgFrame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="74dp">
+
+        <LinearLayout
+            android:id="@+id/lnNone"
+            android:layout_width="74dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imgNone"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:background="#000"
+                android:src="@drawable/none" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rclAddName"
+            android:layout_width="0dp"
+            android:layout_height="74dp"
+            android:layout_weight="1"
+            android:background="#141414" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="1dp"
+        android:background="#000">
+
+        <ImageView
+            android:id="@+id/imgSmokeEffect"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/bord_radius_10"
+            android:padding="7dp"
+            android:src="@drawable/ic_smoke_effects" />
+
+        <ImageView
+            android:id="@+id/imgImageBG"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:padding="7dp"
+            android:src="@drawable/ic_image" />
+
+        <ImageView
+            android:id="@+id/imgFrameBG"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:padding="7dp"
+            android:src="@drawable/ic_frame" />
+
+        <ImageView
+            android:id="@+id/imgText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:padding="7dp"
+            android:src="@drawable/ic_text" />
+
+        <ImageView
+            android:id="@+id/imgTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:padding="7dp"
+            android:src="@drawable/ic_text_style" />
+
+        <ImageView
+            android:id="@+id/imgSymbol"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:padding="7dp"
+            android:src="@drawable/ic_symbol" />
+    </LinearLayout>
+
+
+</LinearLayout>

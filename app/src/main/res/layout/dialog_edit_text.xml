@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#fff"
+    android:layout_width="match_parent"
+
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:textColor="#000"
+        android:text="Enter information"
+        android:textStyle="bold|italic"
+        android:textSize="26sp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <EditText
+            android:id="@+id/edtInformation"
+            android:textColor="#000"
+            android:textColorHint="#525050"
+            android:hint="Enter information"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:id="@+id/imgPickColor"
+            android:padding="5dp"
+            android:src="@drawable/pick_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15sp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <View
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+        <Button
+            android:id="@+id/btnCancel"
+            android:text="Cancel"
+            android:layout_width="100dp"
+            android:layout_marginRight="10dp"
+            android:layout_height="match_parent"/>
+        <Button
+            android:id="@+id/btnAccept"
+            android:text="Accept"
+            android:layout_width="100dp"
+            android:layout_marginRight="10dp"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+</LinearLayout>
