@@ -1,5 +1,6 @@
 package com.example.smokenameart.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -24,6 +26,7 @@ import com.example.smokenameart.R;
 import com.example.smokenameart.models.BubblePropertyModel;
 import com.example.smokenameart.utils.DensityUtils;
 
+@SuppressLint("AppCompatCustomView")
 public class BubbleTextView extends ImageView {
     private static final String TAG = "BubbleTextView";
 
@@ -169,7 +172,7 @@ public class BubbleTextView extends ImageView {
         dst_flipV = new Rect();
         dst_top = new Rect();
         localPaint = new Paint();
-        localPaint.setColor(getResources().getColor(R.color.colorAccent));
+        localPaint.setColor(getResources().getColor(R.color.colorWhite));
         localPaint.setAntiAlias(true);
         localPaint.setDither(true);
         localPaint.setStyle(Paint.Style.STROKE);
@@ -279,6 +282,12 @@ public class BubbleTextView extends ImageView {
     public void setText(String text) {
         mStr = text;
         invalidate();
+    }
+    public void setFont(Typeface font){
+        mFontPaint.setTypeface(font);
+    }
+    public String getText(){
+        return mStr;
     }
     public void setColor(int color) {
         mFontPaint.setColor(color);
@@ -549,6 +558,7 @@ public class BubbleTextView extends ImageView {
         model.setxLocation(minX / mScreenwidth);
         model.setyLocation(minY / mScreenwidth);
         model.setText(mStr);
+
         return model;
     }
 

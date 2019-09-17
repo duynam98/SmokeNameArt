@@ -4,5 +4,15 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorBlack">#141414</color>
+    <color name="colorRed">#F30505</color>
+    <color name="colorOrange">#EE711C</color>
+    <color name="colorYellow">#EBD839</color>
+    <color name="coloryx">#BEF006</color>
+    <color name="colorGreen">#4DEC08</color>
+    <color name="colorxd">#0FF0BC</color>
+    <color name="colorBlue">#0B58F3</color>
+    <color name="colorPul">#B70ADD</color>
+    <color name="colorPrink">#D914E7</color>
     <color name="colorWhite">#fff</color>
+    <color name="test">#E41B52DD</color>
 </resources>

@@ -101,7 +101,7 @@ public class StickerView extends ImageView {
         dst_flipV = new Rect();
         dst_top = new Rect();
         localPaint = new Paint();
-        localPaint.setColor(getResources().getColor(R.color.colorAccent));
+        localPaint.setColor(getResources().getColor(R.color.colorWhite));
         localPaint.setAntiAlias(true);
         localPaint.setDither(true);
         localPaint.setStyle(Paint.Style.STROKE);
@@ -167,7 +167,9 @@ public class StickerView extends ImageView {
     public void setImageResource(int resId) {
         setBitmap(BitmapFactory.decodeResource(getResources(), resId));
     }
+    public void setColor(int color){
 
+    }
     public void setBitmap(Bitmap bitmap) {
         matrix.reset();
         mBitmap = bitmap;

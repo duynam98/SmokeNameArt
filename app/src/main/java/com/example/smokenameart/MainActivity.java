@@ -43,8 +43,7 @@ public class MainActivity extends AppCompatActivity {
         imgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddNameSmokeActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(MainActivity.this, AddNameSmokeActivity.class));
             }
         });
         

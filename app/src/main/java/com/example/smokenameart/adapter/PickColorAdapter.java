@@ -16,19 +16,18 @@ import com.example.smokenameart.interfacee.GetPositionInterface;
 
 import java.util.ArrayList;
 
-public class AddSymbolAdapter extends RecyclerView.Adapter<AddSymbolAdapter.GetViewHolder> {
-    private ArrayList<String> pathList;
+public class PickColorAdapter extends RecyclerView.Adapter<PickColorAdapter.GetViewHolder> {
+    private ArrayList<Integer> integerArrayList;
     private Context context;
-    private int id =-1;
     private GetPositionInterface getPositionInterface;
+    private int id =-1;
 
-    public AddSymbolAdapter(ArrayList<String> pathList, Context context, GetPositionInterface getPositionInterface) {
-        this.pathList = pathList;
+    public PickColorAdapter(ArrayList<Integer> integerArrayList, Context context, GetPositionInterface getPositionInterface) {
+        this.integerArrayList = integerArrayList;
         this.context = context;
         this.getPositionInterface = getPositionInterface;
     }
-    public void changedList(ArrayList<String> pathList){
-        this.pathList = pathList;
+    public void changeId(){
         id=-1;
         notifyDataSetChanged();
     }
@@ -36,27 +35,27 @@ public class AddSymbolAdapter extends RecyclerView.Adapter<AddSymbolAdapter.GetV
     @NonNull
     @Override
     public GetViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_add_name, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pick_color,parent,false);
+
         return new GetViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final GetViewHolder holder, final int position) {
-        String path = pathList.get(position);
-        Glide.with(context).load(path).placeholder(R.drawable.load).into(holder.imgItem);
-        holder.imgItem.setBackgroundResource(R.color.colorBlack);
+        int path = integerArrayList.get(position);
+        holder.imgItem.setImageResource(path);
         if (id!=position){
-            holder.lnItem.setBackgroundResource(R.color.colorBlack);
-        }else{
             holder.lnItem.setBackgroundResource(R.color.colorWhite);
+        }else{
+            holder.lnItem.setBackgroundResource(R.color.colorBlack);
         }
         holder.imgItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(id==position){
-                    holder.lnItem.setBackgroundResource(R.color.colorWhite);
-                }else{
                     holder.lnItem.setBackgroundResource(R.color.colorBlack);
+                }else{
+                    holder.lnItem.setBackgroundResource(R.color.colorWhite);
                     id=position;
                 }
                 getPositionInterface.getPosition(position);
@@ -67,17 +66,16 @@ public class AddSymbolAdapter extends RecyclerView.Adapter<AddSymbolAdapter.GetV
 
     @Override
     public int getItemCount() {
-        return pathList.size();
+        return integerArrayList.size();
     }
 
     public class GetViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imgItem;
         private LinearLayout lnItem;
+        private ImageView imgItem;
         public GetViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgItem= itemView.findViewById(R.id.imgItem);
-            lnItem = itemView.findViewById(R.id.lnItem);
+            lnItem = itemView.findViewById(R.id.lnItemPickColor);
+            imgItem = itemView.findViewById(R.id.imgitemPickColor);
         }
     }
-
 }
