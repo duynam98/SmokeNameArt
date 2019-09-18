@@ -11,18 +11,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <ImageView
-        android:layout_marginTop="30dp"
         android:src="@drawable/smoke_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <ImageView
         android:id="@+id/imgPlay"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="35dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:src="@drawable/ic_play_circle_filled_black_24dp"
         android:layout_width="150dp"
         android:layout_height="150dp"/>
+    <TextView
+        android:id="@+id/txtEditRecent"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:textColor="#EC0E21"
+        android:textStyle="bold|italic"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:text="Edit Recent >>>"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
     <TextView
         android:id="@+id/txtPolicy"
         android:layout_centerHorizontal="true"

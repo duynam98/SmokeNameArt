@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
@@ -169,6 +170,30 @@ public class StickerView extends ImageView {
     }
     public void setColor(int color){
 
+    }
+    public Bitmap getBitmap(){
+        return mBitmap;
+    }
+    public int getColor(){
+        int width = mBitmap.getWidth();
+        int height = mBitmap.getHeight();
+        int[] pixels = new int[width * height];
+        // get pixel array from source
+        mBitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+
+        int pixel;
+        // iteration through pixels
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                // get current index in 2D-matrix
+                int index = y * width + x;
+                pixel = pixels[index];
+                if(pixel!=Color.parseColor("#32ffffff")){
+                   return mBitmap.getPixel(x,y);
+                }
+            }
+        }
+        return 0;
     }
     public void setBitmap(Bitmap bitmap) {
         matrix.reset();

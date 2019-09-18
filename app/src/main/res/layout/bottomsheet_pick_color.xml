@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
         <TextView
-            android:text="Color And Font"
+            android:text="Edit Sticker"
             android:textColor="#000"
             android:textStyle="bold|italic"
             android:textSize="27sp"
@@ -48,6 +48,7 @@
             android:layout_height="match_parent"/>
     </LinearLayout>
     <TextView
+        android:id="@+id/txtFont"
         android:layout_marginTop="10dp"
         android:paddingLeft="5dp"
         android:textColor="#000"
@@ -59,6 +60,22 @@
         android:id="@+id/rclFont"
         android:layout_width="match_parent"
         android:layout_height="46dp"
-        android:layout_marginBottom="15sp"/>
+        android:layout_marginBottom="15dp"/>
+
+    <LinearLayout
+        android:layout_marginBottom="15sp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <Button
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/btnEdtText"
+            android:text="Edit text"
+            android:background="@drawable/radius_button_10"
+            android:layout_weight="5"
+            android:layout_width="0dp"
+            android:layout_height="40dp"/>
+    </LinearLayout>
+
 
 </LinearLayout>

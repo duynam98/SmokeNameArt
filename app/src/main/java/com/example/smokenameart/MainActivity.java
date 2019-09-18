@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int STORAGE_PERMISSION = 1;
     private ImageView imgPlay;
-    private TextView txtPolicy;
+    private TextView txtPolicy, txtEditRecent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         checkPermission();
         imgPlay = findViewById(R.id.imgPlay);
         txtPolicy = findViewById(R.id.txtPolicy);
+        txtEditRecent = findViewById(R.id.txtEditRecent);
 
         Glide.with(this)
                 .asGif()
@@ -51,6 +52,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "Copyright belongs to Tapbi company", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        txtEditRecent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, EditRecentActivity.class));
             }
         });
     }

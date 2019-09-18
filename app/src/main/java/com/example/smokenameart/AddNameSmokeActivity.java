@@ -3,7 +3,6 @@ package com.example.smokenameart;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,20 +11,16 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
+import android.os.Environment;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -34,8 +29,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -57,9 +52,11 @@ import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class AddNameSmokeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -95,6 +92,8 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
     private PickColorAdapter pickColorAdapter;
     private ImageView imgCloseBSheet, imgPickColorBS;
     private RecyclerView rclPickColorBS, rclPickFont;
+    private Button btnEdtText;
+    private TextView txtFont;
     // Dialog save
     private AlertDialog.Builder alertDialog;
     private String checkSave="back";
@@ -102,6 +101,8 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
     private ProgressDialog progressDialog;
     private ArrayList<Typeface> listFont;
     private PickFontAdapter pickFontAdapter;
+
+    private boolean checkSticker = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -195,7 +196,9 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
                         mCurrentEditTextView.setInEdit(false);
                     }
                     saveImage();
+                    startActivity(new Intent(AddNameSmokeActivity.this, EditRecentActivity.class));
                     Toast.makeText(AddNameSmokeActivity.this, "Save finish", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
         });
@@ -215,6 +218,8 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
         imgPickColorBS =bottomSheetDialog.findViewById(R.id.imgPickColorBS);
         rclPickColorBS = bottomSheetDialog.findViewById(R.id.rclPickColor);
         rclPickFont = bottomSheetDialog.findViewById(R.id.rclFont);
+        btnEdtText = bottomSheetDialog.findViewById(R.id.btnEdtText);
+        txtFont = bottomSheetDialog.findViewById(R.id.txtFont);
         listFont = new ArrayList<>();
         listFont = readAllAssetFont(this,"fonts");
         pickFontAdapter = new PickFontAdapter(listFont, this, new GetPositionInterface() {
@@ -239,23 +244,68 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void getPosition(int position) {
                 if(position==0){
+                    if(checkSticker==true) {
+                        Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.parseColor("#FF070C"));
+                        mCurrentView.setBitmap(bb);
+                    }else{
                     mCurrentEditTextView.setColor(Color.RED);
+                    }
                 }else if(position==1){
-                    mCurrentEditTextView.setColor(Color.parseColor("#EE711C"));
+                    if(checkSticker==true) {
+                        Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.parseColor("#EE711C"));
+                        mCurrentView.setBitmap(bb);
+                    }else{
+                        mCurrentEditTextView.setColor(Color.parseColor("#EE711C"));
+                    }
                 }else if(position==2){
-                    mCurrentEditTextView.setColor(Color.YELLOW);
+                    if(checkSticker==true) {
+                        Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(),Color.YELLOW);
+                        mCurrentView.setBitmap(bb);
+                    }else {
+                        mCurrentEditTextView.setColor(Color.YELLOW);
+                    }
                 }else if(position==3){
-                    mCurrentEditTextView.setColor(Color.parseColor("#BEF006"));
+                    if(checkSticker==true) {
+                        Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.parseColor("#BEF006"));
+                        mCurrentView.setBitmap(bb);
+                    }else {
+                        mCurrentEditTextView.setColor(Color.parseColor("#BEF006"));
+                    }
                 }else if(position==4){
-                    mCurrentEditTextView.setColor(Color.GREEN);
+                    if(checkSticker==true) {
+                        Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.GREEN);
+                        mCurrentView.setBitmap(bb);
+                    }else {
+                        mCurrentEditTextView.setColor(Color.GREEN);
+                    }
                 }else if(position==5){
-                    mCurrentEditTextView.setColor(Color.parseColor("#0FF0BC"));
+                    if(checkSticker==true) {
+                        Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.parseColor("#0FF0BC"));
+                        mCurrentView.setBitmap(bb);
+                    }else {
+                        mCurrentEditTextView.setColor(Color.parseColor("#0FF0BC"));
+                    }
                 }else if(position==6){
-                    mCurrentEditTextView.setColor(Color.BLUE);
+                    if(checkSticker==true) {
+                        Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.BLUE);
+                        mCurrentView.setBitmap(bb);
+                    }else {
+                        mCurrentEditTextView.setColor(Color.BLUE);
+                    }
                 }else if(position==7){
-                    mCurrentEditTextView.setColor(Color.parseColor("#B70ADD"));
+                    if(checkSticker==true) {
+                        Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.parseColor("#B70ADD"));
+                        mCurrentView.setBitmap(bb);
+                    }else {
+                        mCurrentEditTextView.setColor(Color.parseColor("#B70ADD"));
+                    }
                 }else if(position==8){
-                    mCurrentEditTextView.setColor(Color.parseColor("#D914E7"));
+                    if(checkSticker==true) {
+                        Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.parseColor("#D914E7"));
+                        mCurrentView.setBitmap(bb);
+                    }else {
+                        mCurrentEditTextView.setColor(Color.parseColor("#D914E7"));
+                    }
                 }
             }
         });
@@ -271,9 +321,22 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
         imgPickColorBS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pickColorAdapter.changeId();
+                if(checkSticker==false) {
+                    pickColorAdapter.changeId();
+                }
                 pickColor();
                 builder.show();
+            }
+        });
+        btnEdtText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+                dialog.show();
+                String text = mCurrentEditTextView.getText();
+                if(!text.equals("double_click")) {
+                    edtInformation.setText(mCurrentEditTextView.getText());
+                }
             }
         });
 
@@ -286,9 +349,14 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
                 .setPositiveButton("Choose", new ColorEnvelopeListener() {
                     @Override
                     public void onColorSelected(ColorEnvelope envelope, boolean fromUser) {
+                        if(checkSticker==true) {
+                            Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(),envelope.getColor());
+                            mCurrentView.setBitmap(bb);
+                        }else {
                         edtInformation.setTextColor(envelope.getColor());
                         mCurrentEditTextView.setColor(envelope.getColor());
                         color = envelope.getColor();
+                        }
                     }
                 })
                 .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
@@ -494,7 +562,6 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
         final StickerView stickerView = new StickerView(this);
         Bitmap bitmap = getBitmapFromAsset(AddNameSmokeActivity.this, filePath);
         stickerView.setBitmap(bitmap);
-        stickerView.setColorFilter(ContextCompat.getColor(this, R.color.colorRed));
         stickerView.setOperationListener(new StickerView.OperationListener() {
             @Override
             public void onDeleteClick() {
@@ -510,6 +577,11 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
                 mCurrentView.setInEdit(false);
                 mCurrentView = stickerView;
                 mCurrentView.setInEdit(true);
+                checkSticker=true;
+                rclPickFont.setVisibility(View.GONE);
+                btnEdtText.setVisibility(View.GONE);
+                txtFont.setVisibility(View.GONE);
+                bottomSheetDialog.show();
             }
 
             @Override
@@ -547,7 +619,12 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
                 mCurrentEditTextView.setInEdit(false);
                 mCurrentEditTextView = bubbleTextView;
                 mCurrentEditTextView.setInEdit(true);
+                checkSticker =false;
+                rclPickFont.setVisibility(View.VISIBLE);
+                btnEdtText.setVisibility(View.VISIBLE);
+                txtFont.setVisibility(View.VISIBLE);
                 bottomSheetDialog.show();
+
             }
 
             @Override
@@ -619,14 +696,91 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
         rllSave.setLayoutParams(params);
     }
 
-    public String saveImage() {
+    public void saveImage() {
         Bitmap bitmap = Bitmap.createBitmap(rllSave.getWidth(), rllSave.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         rllSave.draw(canvas);
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), bitmap, "SmokeNameArt", null);
-        return path;
+//        String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), bitmap, "SmokeNameArt", null);
+        saveImageinFolder(bitmap);
     }
+    private void saveImageinFolder(Bitmap finalBitmap) {
 
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/smoke_name");
+        if (!myDir.exists()) {
+            myDir.mkdirs();
+        }
+        String fname = Calendar.getInstance().getTimeInMillis() + ".jpg";
+        File file = new File (myDir, fname);
+        if (file.exists ())
+            file.delete ();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static Bitmap changeImageColor(Bitmap srcBmp, int dstColor) {
+
+        int width = srcBmp.getWidth();
+        int height = srcBmp.getHeight();
+
+        float srcHSV[] = new float[3];
+        float dstHSV[] = new float[3];
+
+        Bitmap dstBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                Color.colorToHSV(srcBmp.getPixel(col, row), srcHSV);
+                Color.colorToHSV(dstColor, dstHSV);
+
+                // If it area to be painted set only value of original image
+                dstHSV[2] = srcHSV[2];  // value
+
+                dstBitmap.setPixel(col, row, Color.HSVToColor(dstHSV));
+            }
+        }
+
+        return dstBitmap;
+    }
+    private Bitmap changeColor(Bitmap src, int colorToReplace, int colorThatWillReplace) {
+        int width = src.getWidth();
+        int height = src.getHeight();
+        int[] pixels = new int[width * height];
+        // get pixel array from source
+        src.getPixels(pixels, 0, width, 0, 0, width, height);
+
+        Bitmap bmOut = Bitmap.createBitmap(width, height, src.getConfig());
+
+        int A, R, G, B;
+        int pixel;
+
+        // iteration through pixels
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                // get current index in 2D-matrix
+                int index = y * width + x;
+                pixel = pixels[index];
+                if(pixel != colorToReplace && pixel!=Color.parseColor("#32ffffff")){
+                    //change A-RGB individually
+                    A = Color.alpha(colorThatWillReplace);
+                    R = Color.red(colorThatWillReplace);
+                    G = Color.green(colorThatWillReplace);
+                    B = Color.blue(colorThatWillReplace);
+                    pixels[index] = Color.argb(A,R,G,B);
+                    /*or change the whole color
+                    pixels[index] = colorThatWillReplace;*/
+                }
+            }
+        }
+        bmOut.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bmOut;
+    }
 }
