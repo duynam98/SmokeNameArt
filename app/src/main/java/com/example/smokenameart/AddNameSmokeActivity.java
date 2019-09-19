@@ -45,6 +45,7 @@ import com.example.smokenameart.adapter.PickFontAdapter;
 import com.example.smokenameart.interfacee.GetPositionInterface;
 import com.example.smokenameart.views.BubbleTextView;
 import com.example.smokenameart.views.StickerView;
+import com.example.smokenameart.views.StickerViewText;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.skydoves.colorpickerview.ColorEnvelope;
 import com.skydoves.colorpickerview.ColorPickerDialog;
@@ -75,7 +76,8 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
     private AddSymbolAdapter addSymbolAdapter;
     private String checkAdd;
     // sticker view
-    private StickerView mCurrentView;
+    private StickerView mCurrentTView;
+    private StickerViewText mCurrentView;
     private BubbleTextView mCurrentEditTextView;
     private ArrayList<View> mViews;
     // dialog
@@ -96,13 +98,15 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
     private TextView txtFont;
     // Dialog save
     private AlertDialog.Builder alertDialog;
-    private String checkSave="back";
+    private String checkSave = "back";
 
     private ProgressDialog progressDialog;
     private ArrayList<Typeface> listFont;
     private PickFontAdapter pickFontAdapter;
 
     private boolean checkSticker = false;
+    private boolean checkout=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,7 +180,7 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
         progressDialog.setMessage("Loading .....");
 
         listFont = new ArrayList<>();
-        listFont = readAllAssetFont(this,"fonts");
+        listFont = readAllAssetFont(this, "fonts");
     }
 
     private void setupAlertDialogSave() {
@@ -185,15 +189,19 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
         alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if(checkSave.equals("back")){
+                if (checkSave.equals("back")) {
+                    checkout=true;
                     onBackPressed();
-                }else{
-                    checkSave="save";
+                } else {
+                    checkSave = "save";
                     if (mCurrentView != null) {
                         mCurrentView.setInEdit(false);
                     }
                     if (mCurrentEditTextView != null) {
                         mCurrentEditTextView.setInEdit(false);
+                    }
+                    if(mCurrentTView!=null){
+                        mCurrentTView.setInEdit(false);
                     }
                     saveImage();
                     startActivity(new Intent(AddNameSmokeActivity.this, EditRecentActivity.class));
@@ -205,6 +213,7 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
         alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                checkout=false;
                 dialogInterface.dismiss();
             }
         });
@@ -215,13 +224,13 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
         bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(R.layout.bottomsheet_pick_color);
         imgCloseBSheet = bottomSheetDialog.findViewById(R.id.imgBackBottomSheet);
-        imgPickColorBS =bottomSheetDialog.findViewById(R.id.imgPickColorBS);
+        imgPickColorBS = bottomSheetDialog.findViewById(R.id.imgPickColorBS);
         rclPickColorBS = bottomSheetDialog.findViewById(R.id.rclPickColor);
         rclPickFont = bottomSheetDialog.findViewById(R.id.rclFont);
         btnEdtText = bottomSheetDialog.findViewById(R.id.btnEdtText);
         txtFont = bottomSheetDialog.findViewById(R.id.txtFont);
         listFont = new ArrayList<>();
-        listFont = readAllAssetFont(this,"fonts");
+        listFont = readAllAssetFont(this, "fonts");
         pickFontAdapter = new PickFontAdapter(listFont, this, new GetPositionInterface() {
             @Override
             public void getPosition(int position) {
@@ -243,67 +252,67 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
         pickColorAdapter = new PickColorAdapter(integerArrayList, this, new GetPositionInterface() {
             @Override
             public void getPosition(int position) {
-                if(position==0){
-                    if(checkSticker==true) {
+                if (position == 0) {
+                    if (checkSticker == true) {
                         Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.parseColor("#FF070C"));
-                        mCurrentView.setBitmap(bb);
-                    }else{
-                    mCurrentEditTextView.setColor(Color.RED);
+                        mCurrentView.setBitmapColor(bb);
+                    } else {
+                        mCurrentEditTextView.setColor(Color.RED);
                     }
-                }else if(position==1){
-                    if(checkSticker==true) {
+                } else if (position == 1) {
+                    if (checkSticker == true) {
                         Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.parseColor("#EE711C"));
-                        mCurrentView.setBitmap(bb);
-                    }else{
+                        mCurrentView.setBitmapColor(bb);
+                    } else {
                         mCurrentEditTextView.setColor(Color.parseColor("#EE711C"));
                     }
-                }else if(position==2){
-                    if(checkSticker==true) {
-                        Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(),Color.YELLOW);
-                        mCurrentView.setBitmap(bb);
-                    }else {
+                } else if (position == 2) {
+                    if (checkSticker == true) {
+                        Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.YELLOW);
+                        mCurrentView.setBitmapColor(bb);
+                    } else {
                         mCurrentEditTextView.setColor(Color.YELLOW);
                     }
-                }else if(position==3){
-                    if(checkSticker==true) {
+                } else if (position == 3) {
+                    if (checkSticker == true) {
                         Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.parseColor("#BEF006"));
-                        mCurrentView.setBitmap(bb);
-                    }else {
+                        mCurrentView.setBitmapColor(bb);
+                    } else {
                         mCurrentEditTextView.setColor(Color.parseColor("#BEF006"));
                     }
-                }else if(position==4){
-                    if(checkSticker==true) {
+                } else if (position == 4) {
+                    if (checkSticker == true) {
                         Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.GREEN);
-                        mCurrentView.setBitmap(bb);
-                    }else {
+                        mCurrentView.setBitmapColor(bb);
+                    } else {
                         mCurrentEditTextView.setColor(Color.GREEN);
                     }
-                }else if(position==5){
-                    if(checkSticker==true) {
+                } else if (position == 5) {
+                    if (checkSticker == true) {
                         Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.parseColor("#0FF0BC"));
-                        mCurrentView.setBitmap(bb);
-                    }else {
+                        mCurrentView.setBitmapColor(bb);
+                    } else {
                         mCurrentEditTextView.setColor(Color.parseColor("#0FF0BC"));
                     }
-                }else if(position==6){
-                    if(checkSticker==true) {
+                } else if (position == 6) {
+                    if (checkSticker == true) {
                         Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.BLUE);
-                        mCurrentView.setBitmap(bb);
-                    }else {
+                        mCurrentView.setBitmapColor(bb);
+                    } else {
                         mCurrentEditTextView.setColor(Color.BLUE);
                     }
-                }else if(position==7){
-                    if(checkSticker==true) {
+                } else if (position == 7) {
+                    if (checkSticker == true) {
                         Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.parseColor("#B70ADD"));
-                        mCurrentView.setBitmap(bb);
-                    }else {
+                        mCurrentView.setBitmapColor(bb);
+                    } else {
                         mCurrentEditTextView.setColor(Color.parseColor("#B70ADD"));
                     }
-                }else if(position==8){
-                    if(checkSticker==true) {
+                } else if (position == 8) {
+                    if (checkSticker == true) {
                         Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), Color.parseColor("#D914E7"));
-                        mCurrentView.setBitmap(bb);
-                    }else {
+                        mCurrentView.setBitmapColor(bb);
+                    } else {
                         mCurrentEditTextView.setColor(Color.parseColor("#D914E7"));
                     }
                 }
@@ -321,9 +330,7 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
         imgPickColorBS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkSticker==false) {
-                    pickColorAdapter.changeId();
-                }
+                pickColorAdapter.changeId();
                 pickColor();
                 builder.show();
             }
@@ -334,7 +341,7 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
                 bottomSheetDialog.dismiss();
                 dialog.show();
                 String text = mCurrentEditTextView.getText();
-                if(!text.equals("double_click")) {
+                if (!text.equals("double_click")) {
                     edtInformation.setText(mCurrentEditTextView.getText());
                 }
             }
@@ -349,13 +356,13 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
                 .setPositiveButton("Choose", new ColorEnvelopeListener() {
                     @Override
                     public void onColorSelected(ColorEnvelope envelope, boolean fromUser) {
-                        if(checkSticker==true) {
-                            Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(),envelope.getColor());
-                            mCurrentView.setBitmap(bb);
-                        }else {
-                        edtInformation.setTextColor(envelope.getColor());
-                        mCurrentEditTextView.setColor(envelope.getColor());
-                        color = envelope.getColor();
+                        if (checkSticker == true) {
+                            Bitmap bb = changeColor(mCurrentView.getBitmap(), mCurrentView.getColor(), envelope.getColor());
+                            mCurrentView.setBitmapColor(bb);
+                        } else {
+                            edtInformation.setTextColor(envelope.getColor());
+                            mCurrentEditTextView.setColor(envelope.getColor());
+                            color = envelope.getColor();
                         }
                     }
                 })
@@ -421,9 +428,9 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
         addSymbolAdapter = new AddSymbolAdapter(pathListOver, this, new GetPositionInterface() {
             @Override
             public void getPosition(int position) {
-                if(checkAdd.equals("symbol")) {
-                    addStickerView(pathListOver.get(position).substring(22));
-                }else if(checkAdd.equals("text")){
+                if (checkAdd.equals("symbol")) {
+                    addStickerTView(pathListOver.get(position).substring(22));
+                } else if (checkAdd.equals("text")) {
                     addStickerView(pathList.get(position).substring(22));
 
                 }
@@ -445,19 +452,28 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
     }
 
     @Override
+    public void onBackPressed() {
+        if (!checkSave.equals("save")) {
+            checkSave = "back";
+            alertDialog.setMessage("Do you want to exit without saving the image?");
+            if(checkout==false) {
+                alertDialog.show();
+            }else{
+                super.onBackPressed();
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imgBack:
-                if(!checkSave.equals("save")){
-                    checkSave = "back";
-                    alertDialog.setMessage("Do you want to exit without saving the image?");
-                    alertDialog.show();
-                }else{
-                    onBackPressed();
-                }
+                onBackPressed();
                 break;
             case R.id.imgSave:
-                checkSave="nosave";
+                checkSave = "nosave";
                 alertDialog.setMessage("Do you want to save the image?");
                 alertDialog.show();
                 break;
@@ -488,15 +504,15 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
                 addBubble();
                 break;
             case R.id.imgTextStyle:
-                checkAdd="text";
+                checkAdd = "text";
                 setAddChoose(notBorder, notBorder, notBorder, notBorder, border, notBorder);
                 lnNone.setVisibility(View.GONE);
-                changedList("texts","texts_thumb");
+                changedList("texts", "texts_thumb");
                 addSymbolAdapter.changedList(pathListThumb);
                 rclAddName.setAdapter(addSymbolAdapter);
                 break;
             case R.id.imgSymbol:
-                checkAdd="symbol";
+                checkAdd = "symbol";
                 setAddChoose(notBorder, border, notBorder, notBorder, notBorder, notBorder);
                 lnNone.setVisibility(View.GONE);
                 addSymbolAdapter.changedList(pathListOver);
@@ -514,6 +530,9 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
                 if (mCurrentEditTextView != null) {
                     mCurrentEditTextView.setInEdit(false);
                 }
+                if(mCurrentTView!=null){
+                    mCurrentTView.setInEdit(false);
+                }
                 break;
         }
     }
@@ -530,12 +549,13 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
         }
         return pathList;
     }
+
     public ArrayList<Typeface> readAllAssetFont(Context mContext, String folderPath) {
         ArrayList<Typeface> pathList = new ArrayList<>();
         try {
             String[] files = mContext.getAssets().list(folderPath);
             for (String name : files) {
-            pathList.add(Typeface.createFromAsset(getAssets(),folderPath + File.separator + name));
+                pathList.add(Typeface.createFromAsset(getAssets(), folderPath + File.separator + name));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -558,7 +578,57 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
         pathListThumb = readAllAssetImage(this, nameThumb);
         pathList = readAllAssetImage(this, name);
     }
+
     private void addStickerView(String filePath) {
+        final StickerViewText stickerView = new StickerViewText(this);
+        Bitmap bitmap = getBitmapFromAsset(AddNameSmokeActivity.this, filePath);
+        stickerView.setBitmap(bitmap);
+        stickerView.setOperationListener(new StickerViewText.OperationListener() {
+            @Override
+            public void onDeleteClick() {
+                mViews.remove(stickerView);
+                rllAddName.removeView(stickerView);
+            }
+
+            @Override
+            public void onEdit(StickerViewText stickerView) {
+                if (mCurrentEditTextView != null) {
+                    mCurrentEditTextView.setInEdit(false);
+                }
+                if (mCurrentTView != null) {
+                    mCurrentTView.setInEdit(false);
+                }
+                mCurrentView.setInEdit(false);
+                mCurrentView = stickerView;
+                mCurrentView.setInEdit(true);
+            }
+
+            @Override
+            public void onTop(StickerViewText stickerView) {
+                int position = mViews.indexOf(stickerView);
+                if (position == mViews.size() - 1) {
+                    return;
+                }
+                StickerViewText stickerTemp = (StickerViewText) mViews.remove(position);
+                mViews.add(mViews.size(), stickerTemp);
+            }
+
+            @Override
+            public void onChangedColor(StickerViewText stickerViewText) {
+                checkSticker = true;
+                rclPickFont.setVisibility(View.GONE);
+                btnEdtText.setVisibility(View.GONE);
+                txtFont.setVisibility(View.GONE);
+                bottomSheetDialog.show();
+            }
+        });
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        rllAddName.addView(stickerView, lp);
+        mViews.add(stickerView);
+        setCurrentEdit(stickerView);
+    }
+
+    private void addStickerTView(String filePath) {
         final StickerView stickerView = new StickerView(this);
         Bitmap bitmap = getBitmapFromAsset(AddNameSmokeActivity.this, filePath);
         stickerView.setBitmap(bitmap);
@@ -574,14 +644,12 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
                 if (mCurrentEditTextView != null) {
                     mCurrentEditTextView.setInEdit(false);
                 }
-                mCurrentView.setInEdit(false);
-                mCurrentView = stickerView;
-                mCurrentView.setInEdit(true);
-                checkSticker=true;
-                rclPickFont.setVisibility(View.GONE);
-                btnEdtText.setVisibility(View.GONE);
-                txtFont.setVisibility(View.GONE);
-                bottomSheetDialog.show();
+                if (mCurrentView != null) {
+                    mCurrentView.setInEdit(false);
+                }
+                mCurrentTView.setInEdit(false);
+                mCurrentTView = stickerView;
+                mCurrentTView.setInEdit(true);
             }
 
             @Override
@@ -597,7 +665,7 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         rllAddName.addView(stickerView, lp);
         mViews.add(stickerView);
-        setCurrentEdit(stickerView);
+        setCurrentTView(stickerView);
     }
 
     private void addBubble() {
@@ -616,24 +684,23 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
                 if (mCurrentView != null) {
                     mCurrentView.setInEdit(false);
                 }
+                if (mCurrentTView != null) {
+                    mCurrentTView.setInEdit(false);
+                }
                 mCurrentEditTextView.setInEdit(false);
                 mCurrentEditTextView = bubbleTextView;
                 mCurrentEditTextView.setInEdit(true);
-                checkSticker =false;
-                rclPickFont.setVisibility(View.VISIBLE);
-                btnEdtText.setVisibility(View.VISIBLE);
-                txtFont.setVisibility(View.VISIBLE);
-                bottomSheetDialog.show();
+
 
             }
 
             @Override
             public void onClick(BubbleTextView bubbleTextView) {
-                dialog.show();
-                String text = bubbleTextView.getText();
-                if(!text.equals("double_click")) {
-                    edtInformation.setText(bubbleTextView.getText());
-                }
+                checkSticker = false;
+                rclPickFont.setVisibility(View.VISIBLE);
+                btnEdtText.setVisibility(View.VISIBLE);
+                txtFont.setVisibility(View.VISIBLE);
+                bottomSheetDialog.show();
 
             }
 
@@ -653,15 +720,32 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
         setCurrentEdit(bubbleTextView);
     }
 
-    private void setCurrentEdit(StickerView stickerView) {
+    private void setCurrentEdit(StickerViewText stickerView) {
         if (mCurrentView != null) {
             mCurrentView.setInEdit(false);
         }
         if (mCurrentEditTextView != null) {
             mCurrentEditTextView.setInEdit(false);
         }
+        if (mCurrentTView != null) {
+            mCurrentTView.setInEdit(false);
+        }
         mCurrentView = stickerView;
         stickerView.setInEdit(true);
+    }
+
+    private void setCurrentTView(StickerView stickerView) {
+        if (mCurrentView != null) {
+            mCurrentView.setInEdit(false);
+        }
+        if (mCurrentEditTextView != null) {
+            mCurrentEditTextView.setInEdit(false);
+        }
+        if (mCurrentTView != null) {
+            mCurrentTView.setInEdit(false);
+        }
+        mCurrentTView = stickerView;
+        mCurrentTView.setInEdit(true);
     }
 
     private void setCurrentEdit(BubbleTextView bubbleTextView) {
@@ -670,6 +754,9 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
         }
         if (mCurrentEditTextView != null) {
             mCurrentEditTextView.setInEdit(false);
+        }
+        if (mCurrentTView != null) {
+            mCurrentTView.setInEdit(false);
         }
         mCurrentEditTextView = bubbleTextView;
         mCurrentEditTextView.setInEdit(true);
@@ -705,6 +792,7 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
 //        String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), bitmap, "SmokeNameArt", null);
         saveImageinFolder(bitmap);
     }
+
     private void saveImageinFolder(Bitmap finalBitmap) {
 
         String root = Environment.getExternalStorageDirectory().toString();
@@ -713,9 +801,9 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
             myDir.mkdirs();
         }
         String fname = Calendar.getInstance().getTimeInMillis() + ".jpg";
-        File file = new File (myDir, fname);
-        if (file.exists ())
-            file.delete ();
+        File file = new File(myDir, fname);
+        if (file.exists())
+            file.delete();
         try {
             FileOutputStream out = new FileOutputStream(file);
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
@@ -726,30 +814,7 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
             e.printStackTrace();
         }
     }
-    public static Bitmap changeImageColor(Bitmap srcBmp, int dstColor) {
 
-        int width = srcBmp.getWidth();
-        int height = srcBmp.getHeight();
-
-        float srcHSV[] = new float[3];
-        float dstHSV[] = new float[3];
-
-        Bitmap dstBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                Color.colorToHSV(srcBmp.getPixel(col, row), srcHSV);
-                Color.colorToHSV(dstColor, dstHSV);
-
-                // If it area to be painted set only value of original image
-                dstHSV[2] = srcHSV[2];  // value
-
-                dstBitmap.setPixel(col, row, Color.HSVToColor(dstHSV));
-            }
-        }
-
-        return dstBitmap;
-    }
     private Bitmap changeColor(Bitmap src, int colorToReplace, int colorThatWillReplace) {
         int width = src.getWidth();
         int height = src.getHeight();
@@ -768,13 +833,13 @@ public class AddNameSmokeActivity extends AppCompatActivity implements View.OnCl
                 // get current index in 2D-matrix
                 int index = y * width + x;
                 pixel = pixels[index];
-                if(pixel != colorToReplace && pixel!=Color.parseColor("#32ffffff")){
+                if (pixel != colorToReplace && pixel != Color.parseColor("#32ffffff")) {
                     //change A-RGB individually
                     A = Color.alpha(colorThatWillReplace);
                     R = Color.red(colorThatWillReplace);
                     G = Color.green(colorThatWillReplace);
                     B = Color.blue(colorThatWillReplace);
-                    pixels[index] = Color.argb(A,R,G,B);
+                    pixels[index] = Color.argb(A, R, G, B);
                     /*or change the whole color
                     pixels[index] = colorThatWillReplace;*/
                 }

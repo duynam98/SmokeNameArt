@@ -22,7 +22,7 @@ import com.example.smokenameart.R;
 import com.example.smokenameart.models.StickerPropertyModel;
 
 @SuppressLint("AppCompatCustomView")
-public class StickerView extends ImageView {
+public class StickerViewText extends ImageView {
     private static final String TAG = "StickerView";
 
     private Bitmap deleteBitmap;
@@ -77,19 +77,19 @@ public class StickerView extends ImageView {
 
     private boolean isHorizonMirror = false;
 
-    public StickerView(Context context, AttributeSet attrs) {
+    public StickerViewText(Context context, AttributeSet attrs) {
         super(context, attrs);
         stickerId = 0;
         init();
     }
 
-    public StickerView(Context context) {
+    public StickerViewText(Context context) {
         super(context);
         stickerId = 0;
         init();
     }
 
-    public StickerView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public StickerViewText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         stickerId = 0;
         init();
@@ -188,8 +188,8 @@ public class StickerView extends ImageView {
                 // get current index in 2D-matrix
                 int index = y * width + x;
                 pixel = pixels[index];
-                if(pixel!=Color.parseColor("#32ffffff")){
-                   return mBitmap.getPixel(x,y);
+                if(pixel!= Color.parseColor("#32ffffff")){
+                    return mBitmap.getPixel(x,y);
                 }
             }
         }
@@ -207,8 +207,10 @@ public class StickerView extends ImageView {
         matrix.postScale(initScale, initScale, w / 2, h / 2);
         matrix.postTranslate(mScreenwidth / 2 - w / 2, (mScreenwidth) / 2 - h / 2);
         invalidate();
-
-
+    }
+    public void setBitmapColor(Bitmap bitmap) {
+        mBitmap = bitmap;
+        invalidate();
     }
 
 
@@ -247,7 +249,7 @@ public class StickerView extends ImageView {
 
         topBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_top_enable);
         deleteBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_delete);
-        flipVBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_flip);
+        flipVBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_color);
         resizeBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_resize);
 
         deleteBitmapWidth = (int) (deleteBitmap.getWidth() * BITMAP_SCALE);
@@ -279,11 +281,9 @@ public class StickerView extends ImageView {
                     midPointToStartPoint(event);
                     lastLength = diagonalLength(event);
                 } else if (isInButton(event, dst_flipV)) {
-                    PointF localPointF = new PointF();
-                    midDiagonalPoint(localPointF);
-                    matrix.postScale(-1.0F, 1.0F, localPointF.x, localPointF.y);
-                    isHorizonMirror = !isHorizonMirror;
-                    invalidate();
+                    if(operationListener!=null){
+                        operationListener.onChangedColor(this);
+                    }
                 } else if (isInButton(event, dst_top)) {
                     bringToFront();
                     if (operationListener != null) {
@@ -541,9 +541,11 @@ public class StickerView extends ImageView {
     public interface OperationListener {
         void onDeleteClick();
 
-        void onEdit(StickerView stickerView);
+        void onEdit(StickerViewText stickerView);
 
-        void onTop(StickerView stickerView);
+        void onTop(StickerViewText stickerView);
+
+        void onChangedColor(StickerViewText stickerViewText);
     }
 
     public void setOperationListener(OperationListener operationListener) {
@@ -555,4 +557,5 @@ public class StickerView extends ImageView {
         invalidate();
     }
 }
+
 

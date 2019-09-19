@@ -42,25 +42,17 @@ public class PickFontAdapter extends RecyclerView.Adapter<PickFontAdapter.GetVie
         Typeface path = typefaceArrayList.get(position);
         holder.txtItemFont.setTypeface(path);
         if (id!=position){
-            holder.lnFont.setBackgroundResource(R.color.colorWhite);
-            holder.txtItemFont.setBackgroundResource(R.color.colorBlack);
-            holder.txtItemFont.setTextColor(Color.WHITE);
+            holder.viewFont.setBackgroundResource(R.color.colorWhite);
         }else{
-            holder.lnFont.setBackgroundResource(R.color.colorBlack);
-            holder.txtItemFont.setBackgroundResource(R.color.colorWhite);
-            holder.txtItemFont.setTextColor(Color.BLACK);
+            holder.viewFont.setBackgroundResource(R.color.colorRed);
         }
         holder.txtItemFont.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(id==position){
-                    holder.lnFont.setBackgroundResource(R.color.colorBlack);
-                    holder.txtItemFont.setBackgroundResource(R.color.colorWhite);
-                    holder.txtItemFont.setTextColor(Color.BLACK);
+                    holder.viewFont.setBackgroundResource(R.color.colorRed);
                 }else{
-                    holder.lnFont.setBackgroundResource(R.color.colorWhite);
-                    holder.txtItemFont.setBackgroundResource(R.color.colorBlack);
-                    holder.txtItemFont.setTextColor(Color.WHITE);
+                    holder.viewFont.setBackgroundResource(R.color.colorWhite);
                     id=position;
                 }
                 getPositionInterface.getPosition(position);
@@ -77,10 +69,12 @@ public class PickFontAdapter extends RecyclerView.Adapter<PickFontAdapter.GetVie
     public class GetViewHolder extends RecyclerView.ViewHolder {
         private TextView txtItemFont;
         private LinearLayout lnFont;
+        private View viewFont;
         public GetViewHolder(@NonNull View itemView) {
             super(itemView);
             txtItemFont = itemView.findViewById(R.id.txtitemfont);
             lnFont = itemView.findViewById(R.id.lnFont);
+            viewFont = itemView.findViewById(R.id.viewFont);
         }
     }
 }

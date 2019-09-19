@@ -50,7 +50,7 @@ public class EditRecentActivity extends AppCompatActivity implements View.OnClic
     private ImageView imgBackShow, imgShare, imgShowImageDL;
 
     private ImageView imgBackEdit;
-    private int pos=-1;
+    private int pos = -1;
     private String bitmapPath;
 
     @Override
@@ -70,7 +70,7 @@ public class EditRecentActivity extends AppCompatActivity implements View.OnClic
         dialog.setContentView(R.layout.dialog_show_image);
         int w = getResources().getDisplayMetrics().widthPixels;
         Window window = dialog.getWindow();
-        window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, w);
+        window.setLayout(w, w+200);
         imgBackShow = dialog.findViewById(R.id.imgBackShow);
         imgShare = dialog.findViewById(R.id.imgShare);
         imgShowImageDL = dialog.findViewById(R.id.imgShowImageDL);
@@ -91,7 +91,7 @@ public class EditRecentActivity extends AppCompatActivity implements View.OnClic
         editRecentAdapter = new EditRecentAdapter(pathList, this, new GetPositionInterface() {
             @Override
             public void getPosition(int position) {
-                pos =position;
+                pos = position;
                 dialog.show();
                 Glide.with(EditRecentActivity.this).load(pathList.get(position)).placeholder(R.drawable.load).into(imgShowImageDL);
             }
@@ -120,24 +120,7 @@ public class EditRecentActivity extends AppCompatActivity implements View.OnClic
                 dialog.dismiss();
                 break;
             case R.id.imgShare:
-               Glide.with(this).asBitmap().load(pathList.get(pos)).into(new CustomTarget<Bitmap>() {
-                   @Override
-                   public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                       bitmapPath = MediaStore.Images.Media.insertImage(getBaseContext().getContentResolver(), resource, "title", null);
-                       Uri bitmapUri = Uri.parse(bitmapPath);
-//                       Uri bitmapUri = Uri.fromFile(new File(pathList.get(pos)));
-                       Intent intent = new Intent(Intent.ACTION_SEND);
-                       intent.setType("image/*");
-                       intent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
-                       startActivity(Intent.createChooser(intent, "Share"));
-
-                   }
-
-                   @Override
-                   public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                   }
-               });
+                shareImage(pathList.get(pos));
                 break;
         }
     }
@@ -147,11 +130,21 @@ public class EditRecentActivity extends AppCompatActivity implements View.OnClic
         File file = new File(android.os.Environment.getExternalStorageDirectory() + "/smoke_name/");
         if (file.exists()) {
             String[] projection = file.list();
-            for(int i=0;i<projection.length;i++){
-                listOfAllImages.add("/storage/emulated/0/smoke_name/"+projection[i]);
+            for (int i = 0; i < projection.length; i++) {
+                listOfAllImages.add("/storage/emulated/0/smoke_name/" + projection[i]);
             }
         }
         return listOfAllImages;
+    }
+    private void shareImage(String path){
+        File requestFile = new File(path);
+        Uri fileUri = FileProvider.getUriForFile(
+                this,getPackageName() + ".provider",
+                requestFile);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_STREAM, fileUri);
+        startActivity(Intent.createChooser(intent, "Share"));
     }
 
 }

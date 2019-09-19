@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -15,6 +16,8 @@ import com.example.smokenameart.R;
 import com.example.smokenameart.interfacee.GetPositionInterface;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PickColorAdapter extends RecyclerView.Adapter<PickColorAdapter.GetViewHolder> {
     private ArrayList<Integer> integerArrayList;
@@ -45,17 +48,17 @@ public class PickColorAdapter extends RecyclerView.Adapter<PickColorAdapter.GetV
         int path = integerArrayList.get(position);
         holder.imgItem.setImageResource(path);
         if (id!=position){
-            holder.lnItem.setBackgroundResource(R.color.colorWhite);
+            holder.imgBord.setImageResource(R.drawable.img_white);
         }else{
-            holder.lnItem.setBackgroundResource(R.color.colorBlack);
+            holder.imgBord.setImageResource(R.drawable.img_black);
         }
         holder.imgItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(id==position){
-                    holder.lnItem.setBackgroundResource(R.color.colorBlack);
+                    holder.imgBord.setImageResource(R.drawable.img_black);
                 }else{
-                    holder.lnItem.setBackgroundResource(R.color.colorWhite);
+                    holder.imgBord.setImageResource(R.drawable.img_white);
                     id=position;
                 }
                 getPositionInterface.getPosition(position);
@@ -72,10 +75,12 @@ public class PickColorAdapter extends RecyclerView.Adapter<PickColorAdapter.GetV
     public class GetViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout lnItem;
         private ImageView imgItem;
+        private CircleImageView imgBord;
         public GetViewHolder(@NonNull View itemView) {
             super(itemView);
             lnItem = itemView.findViewById(R.id.lnItemPickColor);
             imgItem = itemView.findViewById(R.id.imgitemPickColor);
+            imgBord = itemView.findViewById(R.id.imgBord);
         }
     }
 }
